@@ -1,1 +1,1 @@
-# credot_score_prediction
+# credit_score_prediction
