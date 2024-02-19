@@ -1,4 +1,3 @@
-# Model Base Class
 from abc import ABC, abstractmethod
 import pickle
 from helper import logger
