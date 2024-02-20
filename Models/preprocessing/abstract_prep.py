@@ -8,13 +8,15 @@ class DataPreprocessing(ABC):
         self.__is_trained = False
         self.model = None
 
-    def __is_train(self):
-        if self.__is_trained:
-            return True
-        else:
-            logger.error(f'{self} is not trained yet')
-            return False
-
+    def mark_as_trained(self):
+        self.is_trained = True
+        logger.info(f'{self.name} is marked as trained')
+        
     @abstractmethod
-    def train(self, data, label, test_size=0.2):
+    def apply(self):
         pass
+
+    # @abstractmethod
+    # def apply_update(self):
+    #     pass
+    
