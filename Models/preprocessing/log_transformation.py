@@ -8,8 +8,8 @@ class LogTransformation(DataPreprocessing):
         super().__init__(name)
         self.data = data
         
-    def apply(self, column):
-        logger.info(f"{self.name} is applying log transformation to {column}")
+    def transform(self, column):
+        logger.info(f"{self} is applying log transformation to {column}")
 
         transformed_data = self.data.copy()
         if (transformed_data[column] <= 0).any():

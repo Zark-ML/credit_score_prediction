@@ -1,5 +1,5 @@
-import pandas as pd
 from helper import logger
+import pandas as pd 
 from Models.preprocessing.abstract_prep import DataPreprocessing
 
 class RemoveOutliers(DataPreprocessing):
@@ -7,7 +7,7 @@ class RemoveOutliers(DataPreprocessing):
         super().__init__(name)
         self.data = data
 
-    def apply(self, iqr_multiplier=1.5):
+    def transform(self):
         logger.info(f"{self} is removing outliers from dataframe")
         
         outlier_indices = []
