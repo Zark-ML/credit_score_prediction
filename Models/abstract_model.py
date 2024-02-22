@@ -20,6 +20,10 @@ class Model(ABC):
         pass
 
     @abstractmethod
+    def predict(self, label):
+        pass
+
+    @abstractmethod
     def save(self, path=None):
         if path is None:
             path = f"{self.name}.pkl"

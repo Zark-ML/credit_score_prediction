@@ -1,12 +1,12 @@
-from abstract_prep import DataPreprocessing
 from helper import logger
 import pandas as pd 
+from Models.preprocessing.abstract_prep import DataPreprocessing
 
 class RemoveOutliers(DataPreprocessing):
     def __init__(self, data: pd.DataFrame):
         self.data = data
 
-    def remove_outliers(self):
+    def transform(self):
         logger.info(f"{self} is removing outliers from dataframe")
 
         cleaned_data = self.data.copy()

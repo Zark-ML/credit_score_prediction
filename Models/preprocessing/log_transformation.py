@@ -1,13 +1,13 @@
 import numpy as np
 import pandas as pd
 from helper import logger
-from abstract_prep import DataPreprocessing
+from Models.preprocessing.abstract_prep import DataPreprocessing
 
 class LogTransformation(DataPreprocessing):
     def __init__(self, data:pd.DataFrame):
         self.data = data
         
-    def applyLogTransformation(self, column):
+    def transform(self, column):
         logger.info(f"{self} is applying log transformation to {column}")
 
         transformed_data = self.data.copy()

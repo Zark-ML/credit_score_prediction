@@ -1,13 +1,13 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
-from abstract_prep import DataPreprocessing
 from helper import logger
+from Models.preprocessing.abstract_prep import DataPreprocessing
 
 class Scaling(DataPreprocessing):
     def __init__(self, data:pd.DataFrame):
         self.data = data
           
-    def scaling(self,target_column):
+    def transform(self,target_column):
         logger.info(f"{self} is starting scaling")  
         
         print("Scaling with StandartScaler")      

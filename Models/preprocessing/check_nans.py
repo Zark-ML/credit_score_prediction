@@ -1,13 +1,13 @@
 import pandas as pd
 from helper import logger
 from sklearn.impute import SimpleImputer
-from abstract_prep import DataPreprocessing
+from Models.preprocessing.abstract_prep import DataPreprocessing
 
 class CheckNans(DataPreprocessing):
     def __init__(self, data:pd.DataFrame):
         self.data = data
 
-    def checkNans(self):
+    def transform(self):
             logger.info(f"{self} is checking nans in dataframe")
             
             if(sum(self.data.isna().sum()) == 0):
