@@ -23,9 +23,6 @@ class Pipeline(ABC):
         return self.model.load(path)
 
     def predict(self, data):
-        if not self.model.__is_train():
-            raise Exception("Model must be trained before prediction.")
-        
         processed_data = data
         for step in self.steps:
             processed_data = step.transform(processed_data)

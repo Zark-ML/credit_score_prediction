@@ -7,7 +7,6 @@ class DataPreprocessing(ABC):
         self.name = name
         self.model = None
 
-    
     @abstractmethod
     def transform(self, data):
         pass

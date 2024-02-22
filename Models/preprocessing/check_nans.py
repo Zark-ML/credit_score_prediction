@@ -11,10 +11,10 @@ class CheckNans(DataPreprocessing):
             logger.info(f"{self} is checking nans in dataframe")
             
             if(sum(self.data.isna().sum()) == 0):
-                print("No nans in dataframe")
+                logger.info("No nans in dataframe")
             else:
-                print("Nans are found in dataframe")
-                print("Please choose variant replace nans with mean of columns or drop them (drop or mean,median,most_frequent,constant) : ")
+                logger.info("Nans are found in dataframe")
+                logger.info("Please choose variant replace nans with mean of columns or drop them (drop or mean,median,most_frequent,constant) : ")
         
                 strategies = ["mean",'median',"most_frequent",'constant']
                 variant = input().lower()
