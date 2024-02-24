@@ -2,7 +2,7 @@ import pandas as pd
 from helper import logger
 from sklearn.decomposition import PCA
 
-class PCA:
+class CustomPCA:
     def __init__(self, data:pd.DataFrame):
         self.data = data
         

@@ -3,23 +3,33 @@ import pandas as pd
 from Models.preprocessing.abstract_prep import DataPreprocessing
 
 class RemoveOutliers(DataPreprocessing):
-    def __init__(self, data: pd.DataFrame):
+    def __init__(self, name: str, data: pd.DataFrame):
+        super().__init__(name)
         self.data = data
 
     def transform(self):
         logger.info(f"{self} is removing outliers from dataframe")
+        
+        outlier_indices = []
 
-        cleaned_data = self.data.copy()
-        for column in self.data.columns:
+        for column in self.data.select_dtypes(include=['float64', 'int64']).columns:
             Q1 = self.data[column].quantile(0.25)
             Q3 = self.data[column].quantile(0.75)
             IQR = Q3 - Q1
 
-            lower_bound = Q1 - 1.5 * IQR
-            upper_bound = Q3 + 1.5 * IQR
-            
-            cleaned_data = cleaned_data[(cleaned_data[column] >= lower_bound) & (cleaned_data[column] <= upper_bound)]
+            lower_bound = Q1 - (iqr_multiplier * IQR)
+            upper_bound = Q3 + (iqr_multiplier * IQR)
 
-        logger.info(f"{self} removed outliers from dataframe")
-        
+            column_outliers = self.data[(self.data[column] < lower_bound) | (self.data[column] > upper_bound)].index
+            outlier_indices.extend(column_outliers)
+
+        outlier_indices = list(set(outlier_indices))
+        cleaned_data = self.data.drop(outlier_indices)
+
+        logger.info(f"Removed outliers from dataframe. Original rows: {self.data.shape[0]}, After cleaning: {cleaned_data.shape[0]}")
+        self.mark_as_trained()
+
         return cleaned_data
+    
+        
+        
