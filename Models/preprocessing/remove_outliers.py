@@ -7,7 +7,7 @@ class RemoveOutliers(DataPreprocessing):
         super().__init__(name)
         self.data = data
 
-    def transform(self):
+    def transform(self,iqr_multiplier):
         logger.info(f"{self} is removing outliers from dataframe")
         
         outlier_indices = []
