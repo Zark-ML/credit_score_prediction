@@ -1,6 +1,7 @@
 from Models.abstract_model import Model
 from sklearn.model_selection import train_test_split
 from abc import ABC, abstractmethod
+# from preprocessing import abstract_prep, check_nans, log_transformation, remove_outliers, scaling
 
 class Pipeline(ABC):
     def __init__(self, steps, model: Model):
@@ -23,7 +24,7 @@ class Pipeline(ABC):
         return self.model.load(path)
 
     def predict(self, data):
-        if not self.model.__is_train():
+        if not self.model.trained:
             raise Exception("Model must be trained before prediction.")
         
         processed_data = data

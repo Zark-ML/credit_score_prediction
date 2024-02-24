@@ -8,7 +8,8 @@ class Model(ABC):
         self.__is_trained = False
         self.model = None
 
-    def __is_train(self):
+    @property
+    def trained(self):
         if self.__is_trained:
             return True
         else:
