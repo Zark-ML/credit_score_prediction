@@ -1,23 +1,31 @@
 import pandas as pd
+from sklearn.experimental import enable_iterative_imputer
+from sklearn.impute import IterativeImputer
 from helper import logger
-from sklearn.impute import SimpleImputer
 from preprocessing.abstract_prep import DataPreprocessing
 
-logger.info("Successfully imported 'CheckNans' file")
+logger.info("Successfully imported file")
 
 
 class CheckNans(DataPreprocessing):
-    def __init__(self, data:pd.DataFrame):
-        self.data = data
+    def __init__(self,name:str):
+        super().__init__(name)
 
-    def transform(self):
-            logger.info(f"{self} is checking nans in dataframe")
+
+    def transform(self, data:pd.DataFrame) -> pd.DataFrame:
+        logger.info(f"{self} is checking nans in dataframe")
+
+        if data.isna().sum().sum() == 0:
+            logger.info("No nans in dataframe")
+            return data
+        else:
+            logger.info("Nans are found in dataframe")
+            imp_mean = IterativeImputer()
             
-            if(sum(self.data.isna().sum()) == 0):
-                logger.info("No nans in dataframe")
-            else:
-                logger.info("Nans are found in dataframe")
-                return pd.DataFrame(SimpleImputer("mean").fit_transform(self.data), columns=self.data.columns, index=self.data.index)
-                
-                
-            logger.info(f"{self} is checking nans in dataframe ended")
+            cleaned_data = pd.DataFrame(imp_mean.fit_transform(data), columns=data.columns, index=data.index)
+                    
+            logger.info(f"Nans in dataframe handled using IterativeImputer strategy")
+            return cleaned_data
+
+    def __str__(self) -> str:
+        return super().__str__()

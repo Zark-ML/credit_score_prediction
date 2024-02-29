@@ -4,11 +4,11 @@ from helper import logger
 from preprocessing.abstract_prep import DataPreprocessing
 
 
-logger.info("Successfully imported 'LogTransformation' file")
+logger.info("Successfully imported file")
 
 class LogTransformation(DataPreprocessing):
-    def __init__(self, data:pd.DataFrame):
-        self.data = data
+    def __init__(self,name:str):
+        super().__init__(name)
         
     def transform(self, column):
         logger.info(f"{self} is applying log transformation to {column}")
@@ -23,8 +23,8 @@ class LogTransformation(DataPreprocessing):
             return transformed_data
            
         
-        
-    
+    def __str__(self) -> str:
+        return super().__str__()
 
 
                 

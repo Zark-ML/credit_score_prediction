@@ -1,21 +1,21 @@
-from helper import logger
 import pandas as pd 
+from helper import logger
 from preprocessing.abstract_prep import DataPreprocessing
 
 
-logger.info("Successfully imported 'RemoveOutliers' file")
+logger.info("Successfully imported file")
 
 class RemoveOutliers(DataPreprocessing):
-    def __init__(self, data: pd.DataFrame):
-        self.data = data
+    def __init__(self, name:str):
+        super().__init__(name)
 
-    def transform(self):
+    def transform(self, data:pd.DataFrame) -> pd.DataFrame:
         logger.info(f"{self} is removing outliers from dataframe")
-
-        cleaned_data = self.data.copy()
-        for column in self.data.columns:
-            Q1 = self.data[column].quantile(0.25)
-            Q3 = self.data[column].quantile(0.75)
+        cleaned_data = data.copy()
+        
+        for column in data.columns:
+            Q1 = data[column].quantile(0.25)
+            Q3 = data[column].quantile(0.75)
             IQR = Q3 - Q1
 
             lower_bound = Q1 - 1.5 * IQR
@@ -26,3 +26,6 @@ class RemoveOutliers(DataPreprocessing):
         logger.info(f"{self} removed outliers from dataframe")
         
         return cleaned_data
+    
+    def __str__(self) -> str:
+        return super().__str__()
