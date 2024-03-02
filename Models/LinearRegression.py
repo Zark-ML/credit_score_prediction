@@ -1,5 +1,6 @@
 from sklearn.linear_model import LinearRegression
-from Models.abstract_model import Model
+from abstract_model import Model
+from ..helper import logger
 from numpy import sqrt
 from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import mean_squared_error
@@ -14,10 +15,14 @@ class LinearRegressionModel(Model):
 
     def train(self, X_train, y_train):
         self.model.train(X_train, y_train)
+        self.__is_trained = True
 
     def predict(self, X_test):
-        self.y_pred = self.model.predict(X_test)
-        return self.y_pred
+        if self.__is_trained:
+            self.y_pred = self.model.predict(X_test)
+            return self.y_pred
+        else:
+            logger.error("Model have not trained yet")
 
     def score(self, y_test ,score_type="RMSE"):
         # MAE, MSE, RMSE, R2, MAPE

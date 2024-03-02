@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from sklearn.model_selection import train_test_split
 import pickle
 from helper import logger
 
@@ -18,15 +17,15 @@ class Model(ABC):
             return False
 
     @abstractmethod
-    def train(self, data, label, test_size=0.2):
+    def train(self, X_train, y_train):
         pass
 
     @abstractmethod
-    def predict(self, label):
+    def predict(self, X_test):
         pass
 
     @abstractmethod
-    def score(self, score_type):
+    def score(self, y_test, score_type):
         """
             score_types: MAE, MSE, RMSE, R2, MAPE 
         """
