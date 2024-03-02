@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from sklearn.model_selection import train_test_split
 import pickle
 from helper import logger
 
@@ -25,6 +26,13 @@ class Model(ABC):
         pass
 
     @abstractmethod
+    def score(self, score_type):
+        """
+            score_types: MAE, MSE, RMSE, R2, MAPE 
+        """
+        pass
+
+    
     def save(self, path=None):
         if path is None:
             path = f"{self.name}.pkl"
@@ -37,7 +45,7 @@ class Model(ABC):
             logger.error(f"Failed to save the model: {e}")
         
 
-    @abstractmethod
+    
     def load(self, path=None):
         try:
             with open(path, 'rb') as file:
@@ -47,6 +55,7 @@ class Model(ABC):
         except Exception as e:
             logger.error(f"Failed to load the model: {e}")
             return None
+
 
     def __str__(self):
         return self.name
