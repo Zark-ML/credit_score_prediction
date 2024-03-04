@@ -14,19 +14,21 @@ class LinearRegressionModel(Model):
         self.model = LinearRegression()
 
     def train(self, X_train, y_train):
-        self.model.train(X_train, y_train)
-        self.__is_trained = True
-        logger.info(f"Model was trained successfully: status:{self.__is_trained}")
+        self.model.fit(X_train, y_train)
+        self._is_trained = True
+        logger.info(f"Model was trained successfully: status:{self._is_trained}")
 
     def predict(self, X_test):
-        if self.__is_trained:
+        if self._is_trained:
             self.y_pred = self.model.predict(X_test)
             return self.y_pred
         else:
             logger.error("Model have not trained yet")
 
     def score(self, y_test ,score_type="RMSE"):
-        # MAE, MSE, RMSE, R2, MAPE
+        """
+            score_types: MAE, MSE, RMSE, R2, MAPE 
+        """
         match score_type:
             case "MAE":
                 mae = mean_absolute_error(y_test, self.y_pred)

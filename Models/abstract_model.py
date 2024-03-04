@@ -5,12 +5,12 @@ from helper import logger
 class Model(ABC):
     def __init__(self, name: str):
         self.name = name
-        self.__is_trained = False
+        self._is_trained = False
         self.model = None
 
     @property
     def trained(self):
-        if self.__is_trained:
+        if self._is_trained:
             return True
         else:
             logger.error(f'{self} is not trained yet')
@@ -26,9 +26,6 @@ class Model(ABC):
 
     @abstractmethod
     def score(self, y_test, score_type):
-        """
-            score_types: MAE, MSE, RMSE, R2, MAPE 
-        """
         pass
 
     
