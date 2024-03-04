@@ -1,6 +1,6 @@
 from sklearn.linear_model import LinearRegression
-from abstract_model import Model
-from ..helper import logger
+from Models.abstract_model import Model
+from helper import logger
 from numpy import sqrt
 from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import mean_squared_error
@@ -16,6 +16,7 @@ class LinearRegressionModel(Model):
     def train(self, X_train, y_train):
         self.model.train(X_train, y_train)
         self.__is_trained = True
+        logger.info(f"Model was trained successfully: status:{self.__is_trained}")
 
     def predict(self, X_test):
         if self.__is_trained:
