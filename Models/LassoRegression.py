@@ -10,9 +10,9 @@ from sklearn.metrics import mean_absolute_percentage_error
 
 class LassoRegressionModel(Model):
 
-    def __init__(self, name: str):
+    def __init__(self, name: str, alpha: float = 0.01):
         super().__init__(name)
-        self.model = Lasso()
+        self.model = Lasso(alpha=alpha)
 
     def train(self, X_train, y_train):
         self.model.fit(X_train, y_train)

@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import pickle
 from helper import logger
+import os
 
 class Model(ABC):
     def __init__(self, name: str):
@@ -28,10 +29,16 @@ class Model(ABC):
     def score(self, y_test, score_type):
         pass
 
+    def cross_validate(self, X, y, cv=5, scoring='r2'):
+        from sklearn.model_selection import cross_val_score
+        scores = cross_val_score(self.model, X, y, cv=cv, scoring=scoring)
+        return scores
+
     
     def save(self, path=None):
         if path is None:
-            path = f"{self.name}.pkl"
+            os.makedirs("saved_models", exist_ok=True)
+            path = f"saved_models/{self.name}.pkl"
 
         try:
             with open(path, 'wb') as file:
@@ -43,6 +50,8 @@ class Model(ABC):
 
     
     def load(self, path=None):
+        if path is None:
+            path = f"{self.name}.pkl"
         try:
             with open(path, 'rb') as file:
                 model = pickle.load(file)
