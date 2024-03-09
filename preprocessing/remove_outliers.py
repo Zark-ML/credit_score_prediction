@@ -7,10 +7,11 @@ logger.info("Successfully imported 'RemoveOutliers' file")
 
 class RemoveOutliers(DataPreprocessing):
     def __init__(self, data: pd.DataFrame):
+        self.name = "RemoveOutliers"
         self.data = data
 
     def transform(self):
-        logger.info(f"{self} is removing outliers from dataframe")
+        logger.info(f"{self} is starting")
 
         cleaned_data = self.data.copy()
         for column in self.data.columns:
@@ -23,6 +24,6 @@ class RemoveOutliers(DataPreprocessing):
             
             cleaned_data = cleaned_data[(cleaned_data[column] >= lower_bound) & (cleaned_data[column] <= upper_bound)]
 
-        logger.info(f"{self} removed outliers from dataframe")
+        logger.info(f"{self} ended")
         
         return cleaned_data

@@ -12,3 +12,6 @@ class DataPreprocessing(ABC):
     @abstractmethod
     def transform(self, data):
         pass
+
+    def __str__(self):
+        return f"{self.name} preprocessing"

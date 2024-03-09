@@ -8,10 +8,11 @@ logger.info("Successfully imported 'LogTransformation' file")
 
 class LogTransformation(DataPreprocessing):
     def __init__(self, data:pd.DataFrame):
+        self.name = "LogTransformation"
         self.data = data
         
     def transform(self, column):
-        logger.info(f"{self} is applying log transformation to {column}")
+        logger.info(f"{self} is starting on {column}")
 
         transformed_data = self.data.copy()
         if (self.data[column] <= 0).any():
@@ -19,7 +20,7 @@ class LogTransformation(DataPreprocessing):
             return transformed_data
         else:
             transformed_data[column] = np.log(transformed_data[column])
-            logger.info(f"Log transformation applied to {column}")
+            logger.info(f"{self.name} applied to {column} ended")
             return transformed_data
            
         
