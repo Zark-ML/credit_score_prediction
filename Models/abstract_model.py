@@ -65,7 +65,7 @@ class Model(ABC):
         if self.model is None:
             logger.error(f"{self} is not trained yet")
             return None
-        print(cross_val_score(self.model, X, y, cv=cv, scoring=scoring))
+        # print(cross_val_score(self.model, X, y, cv=cv, scoring=scoring))
         return cross_val_score(self.model, X, y, cv=cv, scoring=scoring).mean()
 
     

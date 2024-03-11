@@ -6,7 +6,7 @@ from preprocessing.abstract_prep import DataPreprocessing
 
 logger.info("Successfully imported 'Scaling' file")
 
-class Scaling(DataPreprocessing):
+class StandardScaling(DataPreprocessing):
     def __init__(self, data:pd.DataFrame):
         self.name = "Scaling"
         self.data = data
