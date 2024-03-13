@@ -4,7 +4,7 @@ from helper import logger
 
 class RidgeRegression(Model):
 
-    def __init__(self, name: str,
+    def __init__(self, name: str = "RidgeRegression",
                  alpha: float = 1.0,
                  fit_intercept: bool = True,
                  copy_X: bool = True,

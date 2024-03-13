@@ -5,8 +5,8 @@ from helper import logger
 
 class LinearRegressionModel(Model):
     
-    def __init__(self):
-        super().__init__("LinearRegression")
+    def __init__(self, name: str = "LinearRegression"):
+        super().__init__(name)
         self.model = LinearRegression()
 
   

@@ -1,6 +1,5 @@
 from itertools import product
 import numpy as np
-from sklearn.model_selection import GridSearchCV
 from tqdm import tqdm 
 
 def evaluate_model(model_class, x_train, y_train, **kwargs):
@@ -14,7 +13,7 @@ def grid_search(model_class, x_train, y_train, kwargs_values):
     best_score = -1 * np.inf
     best_params = dict()
 
-    for kwargs in tqdm(combinations, desc=f"Grid search for {model_class}"):
+    for kwargs in tqdm(combinations):
         result = evaluate_model(model_class, x_train, y_train, **kwargs)
         if result > best_score:
             best_score = result

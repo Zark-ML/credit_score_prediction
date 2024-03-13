@@ -3,7 +3,7 @@ from Models.abstract_model import Model
 from helper import logger
 class LassoRegression(Model):
 
-    def __init__(self, name: str,
+    def __init__(self, name: str = "LassoRegression",
                  alpha: float = 1.0,
                  positive: bool = False,
                  tol: float = 0.0001,

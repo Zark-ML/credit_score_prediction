@@ -18,6 +18,8 @@ class MinMaxScaling(DataPreprocessing):
 
     def transform(self, data:pd.DataFrame):
         """Transform the data using the already fitted scaler."""
+        self.fit(data)
+        
         if not self.is_fitted:
             logger.error(f"{self} is not fitted yet. Please call 'fit' with training data before transforming.")
             return None

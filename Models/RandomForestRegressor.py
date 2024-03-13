@@ -2,9 +2,9 @@ from sklearn.ensemble import RandomForestRegressor
 from helper import logger
 from Models.abstract_model import Model
 
-class RandomForestReg(Model):
+class RandomForestModel(Model):
 
-    def __init__(self, name: str,
+    def __init__(self, name: str = "RandomForestRegression",
                 n_estimators: int = 100,
                 criterion: str = 'friedman_mse',
                 max_depth: int = None,
