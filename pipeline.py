@@ -4,42 +4,47 @@ import pandas as pd
 from helper import logger
 from preprocessing.check_nans import CheckNans 
 from preprocessing.minmax_scaler import MinMaxScaler 
-from preprocessing.remove_outliers import RemoveOutliers 
-from Models.RidgeRegression import RidgeRegressionModel
+from preprocessing.check_and_remove_outliers import CheckAndRemoveOutliers
+from Models.RidgeRegression import RidgeRegression
 class Pipeline:
-    def __init__(self, data: pd.DataFrame):
+    def __init__(self, data: pd.DataFrame, model):
         self.data = data
-        self.model = RidgeRegressionModel("RidgeRegression_pipeline", alpha = 0.5, max_iter = 100)
+        self.model = model
+        self.nan_checker = CheckNans("CheckNans")
+        self.scaler = MinMaxScaler()
+        self.outlier_remover = CheckAndRemoveOutliers()
 
-    def data_preprocessing(self):
+    def data_preprocessing(self, data_to_process, fit=False):
         logger.info("Data Preprocessing")
-        self.data = CheckNans(self.data)
-        self.data = MinMaxScaler(self.data)
+        data_to_process = self.nan_checker.transform(data_to_process)
+        if fit:
+            data_to_process = self.scaler.fit_transform(data_to_process)
+        else:
+            data_to_process = self.scaler.transform(data_to_process)
+        data_to_process = self.outlier_remover.transform(data_to_process)
+
+        logger.info("Data Preprocessing completed")
+        return data_to_process
         
-    def fit_transform(self, data: pd.DataFrame):
-        self.data = self.data_preprocessing(data)
+    def fit_transform(self):
         y = self.data["CREDIT_SCORE"]
         columns = pd.read_json("Data/selected_features_5.json")[0]
         X = self.data[columns]
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-        self.model.train(X_train, y_train)
-        self.model.predict(X_test)
-        scores = list()
-        scores_list = ["MAE", "MSE", "RMSE", "R2", "MAPE"]
-        for score in scores_list:
-            scores.append(self.model.score(y_test, score))
-        logger.info(f"Scores: {scores_list}:{scores}")
+        X_train_preprocessed = self.data_preprocessing(X_train, fit=True)
+        X_test_preprocessed = self.data_preprocessing(X_test)
+        print('X_train_preprocessed', X_train_preprocessed)
+        print('X_test_preprocessed', X_test_preprocessed)
+        self.model.train(X_train_preprocessed, y_train)
+        scores = {score_type: self.model.score(X_test_preprocessed, y_test, score_type) for score_type in ["MAE", "MSE", "RMSE", "R2", "MAPE"]}
+        logger.info(f"Scores: {scores}")
         
-
-    def dereferance(self):
-        pass
-    
-        # processed_data = data
-        # for step in self.steps:
-        #     processed_data = step.transform(processed_data)
-        # 
-        # self.model.train(X_train, y_train)
-        # self.test_data = (X_test, y_test)
+    def predict(self, new_data):
+        if not self.model.trained:
+            logger.error("Model is not trained. Please train the model before prediction.")
+            return None
+        processed_data = self.data_preprocessing(new_data)
+        return self.model.predict(processed_data)
 
     def save(self, path=None):
         self.model.save(path)
@@ -47,17 +52,5 @@ class Pipeline:
     def load(self, path):
         return self.model.load(path)
 
-    def predict(self):
-        if not self.model.trained:
-            logger.error("Model must be trained before prediction.")
-        
-
-        
-        processed_data = data
-        for step in self.steps:
-            processed_data = step.transform(processed_data)
-        
-        return self.model.predict(processed_data)
-
-    def add_step(self, step):
-        self.steps.append(step)
+    def __str__(self):
+        return str(self.model)

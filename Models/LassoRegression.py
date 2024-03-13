@@ -1,10 +1,7 @@
 from sklearn.linear_model import Lasso
 from Models.abstract_model import Model
 from helper import logger
-
-
-
-class LassoRegressionModel(Model):
+class LassoRegression(Model):
 
     def __init__(self, name: str,
                  alpha: float = 1.0,

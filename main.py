@@ -1,7 +1,9 @@
 from pipeline import Pipeline
-from Models import RidgeRegression
+from Models.RidgeRegression import RidgeRegression
 import pandas as pd
 
 data = pd.read_csv("Data/cleaned_data.csv")
-pipeline = Pipeline(data)
-pipeline.fit_transform(data)
+pipeline = Pipeline(data, RidgeRegression("RidgeRegression", alpha = 0.5, max_iter = 100))
+pipeline.fit_transform()
+new_data = pd.read_csv("Data/test_100.csv")
+pipeline.predict(new_data)

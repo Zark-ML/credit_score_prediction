@@ -2,7 +2,7 @@ from sklearn.ensemble import RandomForestRegressor
 from helper import logger
 from Models.abstract_model import Model
 
-class RandomForestRegModel(Model):
+class RandomForestReg(Model):
 
     def __init__(self, name: str,
                 n_estimators: int = 100,

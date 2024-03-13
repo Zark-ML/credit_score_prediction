@@ -2,7 +2,7 @@ from sklearn.linear_model import Ridge
 from Models.abstract_model import Model
 from helper import logger
 
-class RidgeRegressionModel(Model):
+class RidgeRegression(Model):
 
     def __init__(self, name: str,
                  alpha: float = 1.0,

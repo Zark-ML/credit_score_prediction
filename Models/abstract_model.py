@@ -14,6 +14,7 @@ class Model(ABC):
         self.name = name
         self._is_trained = False
         self.model = None
+        self.y_pred = None
 
     @property
     def trained(self):
@@ -23,23 +24,23 @@ class Model(ABC):
             logger.error(f'{self} is not trained yet')
             return False
 
-
     def train(self, X_train, y_train):
         self.model.fit(X_train, y_train)
         self._is_trained = True
         logger.info(f"Model was trained successfully: status:{self._is_trained}")
 
-
     def predict(self, X_test):
-        if self._is_trained:
-            self.y_pred = self.model.predict(X_test)
-            return self.y_pred
-        else:
-            logger.error("Model have not trained yet")
-
+        if not self._is_trained:
+            logger.error("Model has not been trained yet")
+            return None 
+        self.y_pred = self.model.predict(X_test)
+        return self.y_pred
 
 
     def score(self, y_test ,score_type="R2"):
+        if self.y_pred is None:
+            logger.error("Model has not made predictions yet")
+            return None
         """
             score_types: MAE, MSE, RMSE, R2, MAPE 
         """
@@ -68,7 +69,6 @@ class Model(ABC):
         # print(cross_val_score(self.model, X, y, cv=cv, scoring=scoring))
         return cross_val_score(self.model, X, y, cv=cv, scoring=scoring).mean()
 
-    
     def save(self, path=None):
         if path is None:
             os.makedirs("saved_models", exist_ok=True)
@@ -76,13 +76,12 @@ class Model(ABC):
 
         try:
             with open(path, 'wb') as file:
-                pickle.dump(self, file)
+                pickle.dump(self.model, file)
             logger.info(f"Model saved to {path}")
         except Exception as e:
             logger.error(f"Failed to save the model: {e}")
         
 
-    
     def load(self, path=None):
         if path is None:
             path = f"saved_models/{self.name}.pkl"
