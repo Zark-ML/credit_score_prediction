@@ -1,12 +1,9 @@
-from Models.abstract_model import Model
 from sklearn.model_selection import train_test_split
 import pandas as pd
 from helper import logger
 from preprocessing.check_nans import CheckNans 
 from preprocessing.minmax_scaler import MinMaxScaler 
 from preprocessing.check_and_remove_outliers import CheckAndRemoveOutliers
-from Models.RidgeRegression import RidgeRegression
-
 
 class Pipeline:
     def __init__(self, data: pd.DataFrame, model):
@@ -42,18 +39,13 @@ class Pipeline:
         X = preprocess_data.iloc[:, :-1]
         y = preprocess_data.iloc[:, -1]
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=63)
-        # X_train_preprocessed = self.data_preprocessing(X_train, fit=True)
-        # X_test_preprocessed = self.data_preprocessing(X_test)
-        # y_train_preprocessed = self.data_preprocessing(y_train)
-        # y_test_preprocessed = self.data_preprocessing(y_test)
-        # print('X_train_preprocessed', X_train)
-        # print('X_test_preprocessed', X_test)
         self.model.train(X_train, y_train)
         print(X_train.columns)
         self.model.predict(X_test)
         scores = self.get_scores(y_test)
         logger.info(f"Scores: {scores}")
         logger.info("Training completed")
+        return scores
         
     def predict(self, new_data):
         logger.info("Predicting new data")
@@ -66,7 +58,6 @@ class Pipeline:
         processed_data = self.data_preprocessing(X)
         X = processed_data.iloc[:, :-1]
         y = processed_data.iloc[:, -1]
-        # print(processed_data.columns)
         prediction = self.model.predict(X)
         scores = self.get_scores(y)
         logger.info(f"Scores: {scores}")
