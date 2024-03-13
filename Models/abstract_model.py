@@ -9,7 +9,7 @@ from sklearn.metrics import r2_score
 from sklearn.metrics import mean_absolute_percentage_error
 from sklearn.model_selection import cross_val_score
 
-class Model(ABC):
+class Model:
     def __init__(self, name: str):
         self.name = name
         self._is_trained = False

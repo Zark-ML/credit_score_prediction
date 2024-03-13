@@ -7,15 +7,14 @@ from preprocessing.abstract_prep import DataPreprocessing
 logger.info("Successfully imported 'LogTransformation' file")
 
 class LogTransformation(DataPreprocessing):
-    def __init__(self, data:pd.DataFrame):
-        self.name = "LogTransformation"
-        self.data = data
+    def __init__(self):
+        super().__init__("LogTransformation")
         
-    def transform(self, column):
+    def transform(self, data: pd.DataFrame ,column: pd.Series):
         logger.info(f"{self} is starting on {column}")
 
-        transformed_data = self.data.copy()
-        if (self.data[column] <= 0).any():
+        transformed_data = data.copy()
+        if (data[column] <= 0).any():
             logger.warning(f"Log transformation is not applied to {column} as it contains non-positive values.")
             return transformed_data
         else:

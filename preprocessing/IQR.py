@@ -5,17 +5,16 @@ from preprocessing.abstract_prep import DataPreprocessing
 logger.info("Successfully imported 'RemoveOutliers' file")
 
 class RemoveOutliers(DataPreprocessing):
-    def __init__(self, data: pd.DataFrame):
-        self.name = "RemoveOutliers"
-        self.data = data
+    def __init__(self):
+        super().__init__("RemoveOutliers")
 
-    def transform(self):
+    def transform(self, data: pd.DataFrame):
         logger.info(f"{self} is starting")
 
-        cleaned_data = self.data.copy()
-        for column in self.data.columns:
-            Q1 = self.data[column].quantile(0.25)
-            Q3 = self.data[column].quantile(0.75)
+        cleaned_data = data.copy()
+        for column in data.columns:
+            Q1 = data[column].quantile(0.25)
+            Q3 = data[column].quantile(0.75)
             IQR = Q3 - Q1
 
             lower_bound = Q1 - 1.5 * IQR

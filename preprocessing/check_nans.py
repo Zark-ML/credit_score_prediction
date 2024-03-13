@@ -6,7 +6,11 @@ from preprocessing.abstract_prep import DataPreprocessing
 logger.info("Successfully imported 'CheckNans' file")
 
 class CheckNans(DataPreprocessing):
-    def transform(self, data):
+
+    def __init__(self):
+        super().__init__("CheckNans")
+
+    def transform(self, data: pd.DataFrame):
         logger.info(f"{self.__class__.__name__} is starting")
 
         if data.isna().sum().sum() == 0:
