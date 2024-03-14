@@ -16,8 +16,8 @@ class Pipeline:
     def data_preprocessing(self, data_to_process, for_prediction=None):
         logger.info("Data Preprocessing")
         processed_data = self.nan_checker.transform(data_to_process)
-        if not hasattr(self.scaler, "min_"):
-            self.scaler.fit(processed_data)
+        # if not hasattr(self.scaler, "min_"):
+        #     self.scaler.fit(processed_data)
         processed_data = self.scaler.transform(processed_data)
         processed_data = self.outlier_remover.transform(processed_data)
 
@@ -27,13 +27,14 @@ class Pipeline:
     def fit_transform(self):
         logger.info("Training the model")
         y = self.data["CREDIT_SCORE"]
-        columns = pd.read_json("Data/selected_features_5.json")[0]
+        columns = pd.read_json("Data/selected_features_10.json")[0]
         X = self.data[columns]
         df = pd.DataFrame(X)
         df["CREDIT_SCORE"] = y
         preprocess_data = self.data_preprocessing(df)
         X = preprocess_data.iloc[:, :-1]
         y = preprocess_data.iloc[:, -1]
+        # X_train, X_test, y_train, y_test = X, X, y, y
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         self.model.train(X_train, y_train)
         self.model.predict(X_test)

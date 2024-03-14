@@ -18,7 +18,7 @@ class CheckAndRemoveOutliers(DataPreprocessing):
         - clean_df: pandas DataFrame, the DataFrame after removing outliers.
         """
         # Initialize the Isolation Forest model
-        isolation_forest = IsolationForest()
+        isolation_forest = IsolationForest(random_state=42)
         
         # Fit the model on the DataFrame. Assumes the DataFrame is purely numerical.
         isolation_forest.fit(data)

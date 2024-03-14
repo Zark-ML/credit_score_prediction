@@ -38,6 +38,7 @@ class MinMaxScaling(DataPreprocessing):
         scaled_data = self.scaler.transform(data)
         scaled_data = pd.DataFrame(scaled_data, columns=data.columns, index=data.index)
         logger.info(f"{self} transformation ended")
+        # print(scaled_data)
         return scaled_data
     
     def inverse_transform(self, scaled_data: pd.DataFrame):
