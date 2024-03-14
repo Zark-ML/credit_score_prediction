@@ -2,7 +2,7 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 from helper import logger
 from preprocessing.check_nans import CheckNans 
-from preprocessing.minmax_scaler import MinMaxScaler 
+from preprocessing.minmax_scaler import MinMaxScaling
 from preprocessing.check_and_remove_outliers import CheckAndRemoveOutliers
 
 class Pipeline:
@@ -10,16 +10,12 @@ class Pipeline:
         self.data = data
         self.model = model
         self.nan_checker = CheckNans()
-        self.scaler = MinMaxScaler()
+        self.scaler = MinMaxScaling()
         self.outlier_remover = CheckAndRemoveOutliers()
 
-    def data_preprocessing(self, data_to_process, fit=False):
+    def data_preprocessing(self, data_to_process, for_prediction=None):
         logger.info("Data Preprocessing")
         processed_data = self.nan_checker.transform(data_to_process)
-        # if fit:
-        #     data_to_process = self.scaler.fit_transform(data_to_process)
-        #     data_to_process = pd.DataFrame(data_to_process, columns=data_to_process.columns, index=data_to_process.index)
-        # else:
         if not hasattr(self.scaler, "min_"):
             self.scaler.fit(processed_data)
         processed_data = self.scaler.transform(processed_data)
@@ -38,9 +34,8 @@ class Pipeline:
         preprocess_data = self.data_preprocessing(df)
         X = preprocess_data.iloc[:, :-1]
         y = preprocess_data.iloc[:, -1]
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=63)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         self.model.train(X_train, y_train)
-        print(X_train.columns)
         self.model.predict(X_test)
         scores = self.get_scores(y_test)
         logger.info(f"Scores: {scores}")
@@ -55,12 +50,15 @@ class Pipeline:
         columns = pd.read_json("Data/selected_features_5.json")[0]
         X = new_data[columns]
         X["CREDIT_SCORE"] = new_data["CREDIT_SCORE"]
-        processed_data = self.data_preprocessing(X)
+        processed_data = self.data_preprocessing(X, for_prediction=True)
         X = processed_data.iloc[:, :-1]
         y = processed_data.iloc[:, -1]
         prediction = self.model.predict(X)
+        # print(prediction,'ashgdasdgjasdjhj')
+        # prediction_descaled = self.scaler.inverse_transform(prediction)
         scores = self.get_scores(y)
         logger.info(f"Scores: {scores}")
+        # return {"Scaled Prediction" , prediction,"Descaled Prediction", prediction_descaled}
         return prediction
     
     def get_scores(self, y_test):
