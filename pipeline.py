@@ -4,6 +4,8 @@ from helper import logger
 from preprocessing.check_nans import CheckNans 
 from preprocessing.minmax_scaler import MinMaxScaling
 from preprocessing.check_and_remove_outliers import CheckAndRemoveOutliers
+import json
+
 
 class Pipeline:
     def __init__(self, data: pd.DataFrame, model):
@@ -13,7 +15,7 @@ class Pipeline:
         self.scaler = MinMaxScaling()
         self.outlier_remover = CheckAndRemoveOutliers()
 
-    def data_preprocessing(self, data_to_process, for_prediction=None):
+    def data_preprocessing(self, data_to_process):
         logger.info("Data Preprocessing")
         processed_data = self.nan_checker.transform(data_to_process)
         # if not hasattr(self.scaler, "min_"):
@@ -27,14 +29,13 @@ class Pipeline:
     def fit_transform(self):
         logger.info("Training the model")
         y = self.data["CREDIT_SCORE"]
-        columns = pd.read_json("Data/selected_features_10.json")[0]
+        columns = pd.read_json("Data/selected_features_5.json")[0]
         X = self.data[columns]
         df = pd.DataFrame(X)
         df["CREDIT_SCORE"] = y
         preprocess_data = self.data_preprocessing(df)
-        X = preprocess_data.iloc[:, :-1]
-        y = preprocess_data.iloc[:, -1]
-        # X_train, X_test, y_train, y_test = X, X, y, y
+        X = preprocess_data.drop(columns="CREDIT_SCORE", axis=1)
+        y = preprocess_data["CREDIT_SCORE"]
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         self.model.train(X_train, y_train)
         self.model.predict(X_test)
@@ -51,16 +52,17 @@ class Pipeline:
         columns = pd.read_json("Data/selected_features_5.json")[0]
         X = new_data[columns]
         X["CREDIT_SCORE"] = new_data["CREDIT_SCORE"]
-        processed_data = self.data_preprocessing(X, for_prediction=True)
-        X = processed_data.iloc[:, :-1]
-        y = processed_data.iloc[:, -1]
+        processed_data = self.data_preprocessing(X)
+        X = processed_data.drop(columns=["CREDIT_SCORE"], axis=1)
+        y = processed_data["CREDIT_SCORE"]
         prediction = self.model.predict(X)
         # print(prediction,'ashgdasdgjasdjhj')
-        # prediction_descaled = self.scaler.inverse_transform(prediction)
+        prediction_descaled = self.scaler.inverse_transform(prediction)
+        with open("Data/descaled_predictions.json", "w") as file:
+            json.dump(prediction_descaled, file)
         scores = self.get_scores(y)
         logger.info(f"Scores: {scores}")
-        # return {"Scaled Prediction" , prediction,"Descaled Prediction", prediction_descaled}
-        return prediction
+        return prediction_descaled
     
     def get_scores(self, y_test):
         scores = {score_type: self.model.score(y_test, score_type) for score_type in ["MAE", "MSE", "RMSE", "R2", "MAPE"]}

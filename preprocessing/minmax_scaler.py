@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from helper import logger
 from preprocessing.abstract_prep import DataPreprocessing
@@ -41,19 +42,10 @@ class MinMaxScaling(DataPreprocessing):
         # print(scaled_data)
         return scaled_data
     
-    def inverse_transform(self, scaled_data: pd.DataFrame):
+    def inverse_transform(self, scaled_data: np.ndarray):
         """Inverse transform the scaled data to its original scale."""
         with open("Data/scaling_values.json", "r") as f:
             scaling_values = json.load(f)
-
-
-        # Extract min and max values for each column
-        columns_min_max = {col: scaling_values[col] for col in scaled_data.columns}
-
-        # Calculate inverse scaling
-        descaled_data = pd.DataFrame()
-        for col in scaled_data.columns:
-            min_val, max_val = columns_min_max[col]
-            descaled_data[col] = scaled_data[col] * (max_val - min_val) + min_val
-
-        return descaled_data
+        min, max = scaling_values["CREDIT_SCORE"][0], scaling_values["CREDIT_SCORE"][1]
+        descaled_data = scaled_data * (max-min) + min
+        return list(descaled_data)
