@@ -8,19 +8,23 @@ import json
 
 
 class Pipeline:
-    def __init__(self, data: pd.DataFrame, model):
+    def __init__(self, data: pd.DataFrame, model,catboost=False):
         self.data = data
         self.model = model
         self.nan_checker = CheckNans()
         self.scaler = MinMaxScaling()
         self.outlier_remover = CheckAndRemoveOutliers()
+        self.catboost = catboost
 
     def data_preprocessing(self, data_to_process):
         logger.info("Data Preprocessing")
         processed_data = self.nan_checker.transform(data_to_process)
         # if not hasattr(self.scaler, "min_"):
         #     self.scaler.fit(processed_data)
-        processed_data = self.scaler.transform(processed_data)
+        if self.catboost:
+            processed_data = self.scaler.transform(processed_data, catboost=True)
+        else:
+            processed_data = self.scaler.transform(processed_data)
         processed_data = self.outlier_remover.transform(processed_data)
 
         logger.info("Data Preprocessing completed")
