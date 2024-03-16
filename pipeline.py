@@ -29,7 +29,7 @@ class Pipeline:
     def fit_transform(self):
         logger.info("Training the model")
         y = self.data["CREDIT_SCORE"]
-        columns = pd.read_json("Data/selected_features_5.json")[0]
+        columns = pd.read_json("Data/selected_features_15.json")[0]
         X = self.data[columns]
         df = pd.DataFrame(X)
         df["CREDIT_SCORE"] = y
@@ -49,7 +49,7 @@ class Pipeline:
         if not self.model.trained:
             logger.error("Model is not trained. Please train the model before prediction.")
             return None
-        columns = pd.read_json("Data/selected_features_5.json")[0]
+        columns = pd.read_json("Data/selected_features_15.json")[0]
         X = new_data[columns]
         X["CREDIT_SCORE"] = new_data["CREDIT_SCORE"]
         processed_data = self.data_preprocessing(X)
