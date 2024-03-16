@@ -1,17 +1,18 @@
 from abc import ABC, abstractmethod
 import pandas as pd
 from helper import logger
+import pandas as pd
 
 logger.info("Successfully imported file")
 
 class DataPreprocessing(ABC):
     def __init__(self, name:str):
         self.name = name
+
     
     @abstractmethod
-    def transform(self, data:pd.DataFrame) -> pd.DataFrame:
+    def transform(self, data: pd.DataFrame):
         pass
 
-    @abstractmethod
-    def __str__(self) -> str:
-        return self.name
+    def __str__(self):
+        return f"_{self.name} preprocessing class_"

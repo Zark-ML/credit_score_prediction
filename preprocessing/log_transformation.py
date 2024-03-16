@@ -7,19 +7,19 @@ from preprocessing.abstract_prep import DataPreprocessing
 logger.info("Successfully imported file")
 
 class LogTransformation(DataPreprocessing):
-    def __init__(self,name:str):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__("LogTransformation")
         
-    def transform(self, column):
-        logger.info(f"{self} is applying log transformation to {column}")
+    def transform(self, data: pd.DataFrame ,column: pd.Series):
+        logger.info(f"{self} is starting on {column}")
 
-        transformed_data = self.data.copy()
-        if (self.data[column] <= 0).any():
+        transformed_data = data.copy()
+        if (data[column] <= 0).any():
             logger.warning(f"Log transformation is not applied to {column} as it contains non-positive values.")
             return transformed_data
         else:
             transformed_data[column] = np.log(transformed_data[column])
-            logger.info(f"Log transformation applied to {column}")
+            logger.info(f"{self.name} applied to {column} ended")
             return transformed_data
            
         

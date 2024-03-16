@@ -1,0 +1,26 @@
+[
+    {
+        "n_estimators": 79,
+        "criterion": "squared_error",
+        "max_depth": 10,
+        "min_samples_split": 5,
+        "min_samples_leaf": 1,
+        "best_score": 0.7196651703481908
+    },
+    {
+        "n_estimators": 79,
+        "criterion": "squared_error",
+        "max_depth": 35,
+        "min_samples_split": 8,
+        "min_samples_leaf": 1,
+        "best_score": 0.7527890383886096
+    },
+    {
+        "n_estimators": 79,
+        "criterion": "squared_error",
+        "max_depth": 35,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1,
+        "best_score": 0.7734889635931518
+    }
+]

@@ -1,21 +1,76 @@
-from Models.abstract_model import Model
 from sklearn.model_selection import train_test_split
-from abc import ABC, abstractmethod
-# from preprocessing import abstract_prep, check_nans, log_transformation, remove_outliers, scaling
+import pandas as pd
+from helper import logger
+from preprocessing.check_nans import CheckNans 
+from preprocessing.minmax_scaler import MinMaxScaling
+from preprocessing.check_and_remove_outliers import CheckAndRemoveOutliers
+import json
 
-class Pipeline(ABC):
-    def __init__(self, steps, model: Model):
-        self.steps = steps
+
+class Pipeline:
+    def __init__(self, data: pd.DataFrame, model,catboost=False):
+        self.data = data
         self.model = model
+        self.nan_checker = CheckNans()
+        self.scaler = MinMaxScaling()
+        self.outlier_remover = CheckAndRemoveOutliers()
+        self.catboost = catboost
 
-    def fit_transform(self, data, label):
+    def data_preprocessing(self, data_to_process):
+        logger.info("Data Preprocessing")
+        processed_data = self.nan_checker.transform(data_to_process)
+        # if not hasattr(self.scaler, "min_"):
+        #     self.scaler.fit(processed_data)
+        if self.catboost:
+            processed_data = self.scaler.transform(processed_data, catboost=True)
+        else:
+            processed_data = self.scaler.transform(processed_data)
+        processed_data = self.outlier_remover.transform(processed_data)
 
-        processed_data = data
-        for step in self.steps:
-            processed_data = step.transform(processed_data)
-        X_train, X_test, y_train, y_test = train_test_split(processed_data, label, test_size=0.2)
+        logger.info("Data Preprocessing completed")
+        return pd.DataFrame(processed_data, columns=data_to_process.columns)
+        
+    def fit_transform(self):
+        logger.info("Training the model")
+        y = self.data["CREDIT_SCORE"]
+        columns = pd.read_json("Data/selected_features_15.json")[0]
+        X = self.data[columns]
+        df = pd.DataFrame(X)
+        df["CREDIT_SCORE"] = y
+        preprocess_data = self.data_preprocessing(df)
+        X = preprocess_data.drop(columns="CREDIT_SCORE", axis=1)
+        y = preprocess_data["CREDIT_SCORE"]
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         self.model.train(X_train, y_train)
-        self.test_data = (X_test, y_test)
+        self.model.predict(X_test)
+        scores = self.get_scores(y_test)
+        logger.info(f"Scores: {scores}")
+        logger.info("Training completed")
+        return scores
+        
+    def predict(self, new_data):
+        logger.info("Predicting new data")
+        if not self.model.trained:
+            logger.error("Model is not trained. Please train the model before prediction.")
+            return None
+        columns = pd.read_json("Data/selected_features_15.json")[0]
+        X = new_data[columns]
+        X["CREDIT_SCORE"] = new_data["CREDIT_SCORE"]
+        processed_data = self.data_preprocessing(X)
+        X = processed_data.drop(columns=["CREDIT_SCORE"], axis=1)
+        y = processed_data["CREDIT_SCORE"]
+        prediction = self.model.predict(X)
+        # print(prediction,'ashgdasdgjasdjhj')
+        prediction_descaled = self.scaler.inverse_transform(prediction)
+        with open("Data/descaled_predictions.json", "w") as file:
+            json.dump(prediction_descaled, file)
+        scores = self.get_scores(y)
+        logger.info(f"Scores: {scores}")
+        return prediction_descaled
+    
+    def get_scores(self, y_test):
+        scores = {score_type: self.model.score(y_test, score_type) for score_type in ["MAE", "MSE", "RMSE", "R2", "MAPE"]}
+        return scores
 
     def save(self, path=None):
         self.model.save(path)
@@ -23,15 +78,5 @@ class Pipeline(ABC):
     def load(self, path):
         return self.model.load(path)
 
-    def predict(self, data):
-        if not self.model.trained:
-            raise Exception("Model must be trained before prediction.")
-        
-        processed_data = data
-        for step in self.steps:
-            processed_data = step.transform(processed_data)
-        
-        return self.model.predict(processed_data)
-
-    def add_step(self, step):
-        self.steps.append(step)
+    def __str__(self):
+        return str(self.model)
