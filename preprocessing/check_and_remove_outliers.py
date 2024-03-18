@@ -3,6 +3,8 @@ from helper import logger
 from preprocessing.abstract_prep import DataPreprocessing
 import pandas as pd
 
+logger.info("Successfully imported 'CheckAndRemoveOutliers' file")
+
 class CheckAndRemoveOutliers(DataPreprocessing):
     def __init__(self):
         super().__init__("CheckAndRemoveOutliers")

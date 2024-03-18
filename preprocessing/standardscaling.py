@@ -4,7 +4,7 @@ from helper import logger
 from preprocessing.abstract_prep import DataPreprocessing
 
 
-logger.info("Successfully imported 'Scaling' file")
+logger.info("Successfully imported 'StandardScaling' file")
 
 class StandardScaling(DataPreprocessing):
     def __init__(self):
