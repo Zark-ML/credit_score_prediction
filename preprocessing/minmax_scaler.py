@@ -63,6 +63,6 @@ class MinMaxScaling(DataPreprocessing):
             self.scaling_values = json.load(f)
         min = self.scaling_values["CREDIT_SCORE"][0]
         max = self.scaling_values["CREDIT_SCORE"][1]
-        descaled_data = scaled_data * (max - min) + min
+        descaled_data = np.array(scaled_data) * (max - min) + min
 
         return list(descaled_data)

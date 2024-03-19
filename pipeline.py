@@ -65,13 +65,12 @@ class Pipeline:
         X = processed_data.drop(columns=["CREDIT_SCORE"], axis=1)
         y = processed_data["CREDIT_SCORE"]
         prediction = self.model.predict(X)
-        prediction_descaled = self.scaler.inverse_transform(prediction)
         with open("Data/descaled_predictions.json", "w") as file:
-            json.dump(prediction_descaled, file)
+            json.dump(prediction, file)
         y_descaled = self.scaler.inverse_transform(y)
         scores = self.get_scores(y_descaled)
         logger.info(f"Scores: {scores}")
-        return prediction_descaled
+        return scores
     
     def get_scores(self, y_test):
         scores = {score_type: self.model.score(y_test, score_type) for score_type in ["MAE", "MSE", "RMSE", "R2", "MAPE"]}
