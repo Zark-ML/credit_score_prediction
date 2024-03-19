@@ -1,342 +1,154 @@
 {
-    "INCOME": [
-        0.0,
-        662094.0
+    "R_ENTERTAINMENT": [
+        0.4006,
+        0.7876
     ],
-    "SAVINGS": [
-        0.0,
-        2911863.0
-    ],
-    "DEBT": [
-        0.0,
-        5968620.0
-    ],
-    "R_SAVINGS_INCOME": [
-        0.0,
-        16.1112
-    ],
-    "R_DEBT_INCOME": [
-        0.0,
-        37.0006
-    ],
-    "R_DEBT_SAVINGS": [
-        0.0,
-        166.9788
-    ],
-    "T_CLOTHING_12": [
-        0.0,
-        43255.0
-    ],
-    "T_CLOTHING_6": [
-        0.0,
-        39918.0
-    ],
-    "R_CLOTHING": [
-        0.0,
-        1.0583
-    ],
-    "R_CLOTHING_INCOME": [
-        0.0034,
-        0.2517
-    ],
-    "R_CLOTHING_SAVINGS": [
-        0.0,
-        1.6766
+    "CAT_CREDIT_CARD": [
+        0,
+        1
     ],
     "R_CLOTHING_DEBT": [
         0.0,
-        1.2674
-    ],
-    "T_EDUCATION_12": [
-        0.0,
-        38229.0
-    ],
-    "T_EDUCATION_6": [
-        0.0,
-        19327.0
-    ],
-    "R_EDUCATION": [
-        0.4926,
-        0.5107
-    ],
-    "R_EDUCATION_INCOME": [
-        0.0,
-        0.5302
-    ],
-    "R_EDUCATION_SAVINGS": [
-        0.0,
-        4.338
-    ],
-    "R_EDUCATION_DEBT": [
-        0.0,
-        0.5424
-    ],
-    "T_ENTERTAINMENT_12": [
-        0.0,
-        62529.0
-    ],
-    "T_ENTERTAINMENT_6": [
-        0.0,
-        44066.0
-    ],
-    "R_ENTERTAINMENT": [
-        0.3898,
-        0.7876
-    ],
-    "R_ENTERTAINMENT_INCOME": [
-        0.0,
-        1.3974
-    ],
-    "R_ENTERTAINMENT_SAVINGS": [
-        0.0,
-        7.931
-    ],
-    "R_ENTERTAINMENT_DEBT": [
-        0.0,
-        2.7948
-    ],
-    "T_FINES_12": [
-        0.0,
-        1421.0
-    ],
-    "T_FINES_6": [
-        0.0,
-        1082.0
-    ],
-    "R_FINES": [
-        0.0,
-        1.5731
-    ],
-    "R_FINES_INCOME": [
-        0.0,
-        0.0119
-    ],
-    "R_FINES_SAVINGS": [
-        0.0,
-        0.0358
-    ],
-    "R_FINES_DEBT": [
-        0.0,
-        0.0034
-    ],
-    "T_GAMBLING_12": [
-        0.0,
-        22099.0
-    ],
-    "T_GAMBLING_6": [
-        0.0,
-        11780.0
+        1.1192
     ],
     "R_GAMBLING": [
-        0.3342,
+        0.3454,
         0.6905
-    ],
-    "R_GAMBLING_INCOME": [
-        0.0,
-        0.2058
-    ],
-    "R_GAMBLING_SAVINGS": [
-        0.0,
-        0.8974
-    ],
-    "R_GAMBLING_DEBT": [
-        0.0,
-        0.1691
-    ],
-    "T_GROCERIES_12": [
-        208.0,
-        94250.0
-    ],
-    "T_GROCERIES_6": [
-        74.0,
-        56455.0
-    ],
-    "R_GROCERIES": [
-        0.2673,
-        0.6505
-    ],
-    "R_GROCERIES_INCOME": [
-        0.0,
-        0.5635
-    ],
-    "R_GROCERIES_SAVINGS": [
-        0.0,
-        3.5578
-    ],
-    "R_GROCERIES_DEBT": [
-        0.0,
-        2.7971
-    ],
-    "T_HEALTH_12": [
-        0.0,
-        45428.0
-    ],
-    "T_HEALTH_6": [
-        0.0,
-        33967.0
-    ],
-    "R_HEALTH": [
-        0.0,
-        1.0
-    ],
-    "R_HEALTH_INCOME": [
-        0.0,
-        0.397
-    ],
-    "R_HEALTH_SAVINGS": [
-        0.0,
-        0.939
-    ],
-    "R_HEALTH_DEBT": [
-        0.0,
-        2.0316
-    ],
-    "T_HOUSING_12": [
-        0.0,
-        83095.0
-    ],
-    "T_HOUSING_6": [
-        0.0,
-        42054.0
-    ],
-    "R_HOUSING": [
-        0.5051,
-        0.5068
-    ],
-    "R_HOUSING_INCOME": [
-        0.0,
-        0.4286
-    ],
-    "R_HOUSING_SAVINGS": [
-        0.0,
-        1.5005
-    ],
-    "R_HOUSING_DEBT": [
-        0.0,
-        3.3918
-    ],
-    "T_TAX_12": [
-        0.0,
-        17013.0
-    ],
-    "T_TAX_6": [
-        0.0,
-        8517.0
-    ],
-    "R_TAX": [
-        0.3339,
-        0.6671
     ],
     "R_TAX_INCOME": [
         0.0,
         0.0858
     ],
+    "R_HEALTH_DEBT": [
+        0.0,
+        1.3733
+    ],
     "R_TAX_SAVINGS": [
         0.0,
         0.1629
     ],
-    "R_TAX_DEBT": [
+    "R_ENTERTAINMENT_DEBT": [
         0.0,
-        0.2512
+        2.5816
     ],
-    "T_TRAVEL_12": [
+    "R_EDUCATION_INCOME": [
         0.0,
-        216557.0
+        0.5302
     ],
-    "T_TRAVEL_6": [
+    "R_TAX": [
+        0.3934,
+        0.6671
+    ],
+    "R_DEBT_INCOME": [
         0.0,
-        158788.0
+        37.0006
     ],
-    "R_TRAVEL": [
-        0.0,
-        1.0418
+    "R_GROCERIES": [
+        0.2673,
+        0.6462
     ],
-    "R_TRAVEL_INCOME": [
-        0.0,
-        1.3967
-    ],
-    "R_TRAVEL_SAVINGS": [
-        0.0,
-        6.6264
-    ],
-    "R_TRAVEL_DEBT": [
-        0.0,
-        7.3377
-    ],
-    "T_UTILITIES_12": [
-        0.0,
-        20504.0
-    ],
-    "T_UTILITIES_6": [
-        0.0,
-        10316.0
-    ],
-    "R_UTILITIES": [
-        0.4938,
-        0.5203
-    ],
-    "R_UTILITIES_INCOME": [
-        0.0,
-        0.1564
+    "T_EXPENDITURE_12": [
+        1177,
+        472924
     ],
     "R_UTILITIES_SAVINGS": [
         0.0,
         0.687
     ],
-    "R_UTILITIES_DEBT": [
-        0.0,
-        0.9902
-    ],
-    "T_EXPENDITURE_12": [
-        1177.0,
-        472924.0
-    ],
-    "T_EXPENDITURE_6": [
-        620.0,
-        286987.0
-    ],
-    "R_EXPENDITURE": [
-        0.1769,
-        0.7427
+    "T_GAMBLING_6": [
+        0,
+        11780
     ],
     "R_EXPENDITURE_INCOME": [
         0.6667,
         2.0002
     ],
-    "R_EXPENDITURE_SAVINGS": [
+    "R_TAX_DEBT": [
         0.0,
-        10.0099
+        0.2512
+    ],
+    "DEBT": [
+        0,
+        5157365
+    ],
+    "R_GAMBLING_INCOME": [
+        0.0,
+        0.1866
+    ],
+    "T_ENTERTAINMENT_6": [
+        0,
+        44066
+    ],
+    "INCOME": [
+        0,
+        662094
+    ],
+    "R_TRAVEL": [
+        0.0,
+        1.0418
     ],
     "R_EXPENDITURE_DEBT": [
         0.0,
         10.0053
     ],
+    "T_TRAVEL_12": [
+        0,
+        214310
+    ],
+    "T_CLOTHING_12": [
+        0,
+        43255
+    ],
+    "T_TAX_12": [
+        0,
+        17013
+    ],
+    "T_EXPENDITURE_6": [
+        623,
+        286987
+    ],
+    "R_HOUSING_DEBT": [
+        0.0,
+        3.3918
+    ],
+    "R_SAVINGS_INCOME": [
+        0.0,
+        16.1112
+    ],
+    "T_FINES_12": [
+        0,
+        1179
+    ],
+    "R_EXPENDITURE": [
+        0.1769,
+        0.7427
+    ],
+    "R_DEBT_SAVINGS": [
+        0.0,
+        153.0197
+    ],
     "CAT_GAMBLING": [
-        0.0,
-        2.0
+        0,
+        2
     ],
-    "CAT_DEBT": [
-        0.0,
-        1.0
+    "T_FINES_6": [
+        0,
+        1082
     ],
-    "CAT_CREDIT_CARD": [
+    "R_GROCERIES_DEBT": [
         0.0,
-        1.0
+        1.758
     ],
-    "CAT_MORTGAGE": [
+    "R_UTILITIES_DEBT": [
         0.0,
-        1.0
+        0.7543
     ],
-    "CAT_SAVINGS_ACCOUNT": [
+    "R_TRAVEL_DEBT": [
         0.0,
-        1.0
-    ],
-    "CAT_DEPENDENTS": [
-        0.0,
-        1.0
+        7.3377
     ],
     "CREDIT_SCORE": [
-        300.0,
-        800.0
+        339,
+        800
     ]
 }

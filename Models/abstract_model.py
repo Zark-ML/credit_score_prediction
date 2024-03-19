@@ -7,7 +7,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_absolute_percentage_error
 from sklearn.model_selection import cross_val_score
-
+from preprocessing.minmax_scaler import MinMaxScaling
 import os
 import pickle
 from math import sqrt
@@ -88,6 +88,7 @@ class Model:
             logger.error("Model has not been trained yet")
             return None 
         self.y_pred = self.model.predict(X_test)
+        self.y_pred = MinMaxScaling().inverse_transform(self.y_pred)
         return self.y_pred
 
     def score(self, y_test ,score_type="R2"):

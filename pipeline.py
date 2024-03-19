@@ -8,25 +8,23 @@ import json
 
 
 class Pipeline:
-    def __init__(self, data: pd.DataFrame, model,catboost=False):
+    def __init__(self, data: pd.DataFrame, model):
         self.data = data
         self.model = model
         self.nan_checker = CheckNans()
         self.scaler = MinMaxScaling()
         self.outlier_remover = CheckAndRemoveOutliers()
-        self.catboost = catboost
 
     def data_preprocessing(self, data_to_process):
         logger.info("Data Preprocessing")
         processed_data = self.nan_checker.transform(data_to_process)
+        print(processed_data.shape, "after nan checking")
         # if not hasattr(self.scaler, "min_"):
         #     self.scaler.fit(processed_data)
-        if self.catboost:
-            processed_data = self.scaler.transform(processed_data, catboost=True)
-        else:
-            processed_data = self.scaler.transform(processed_data)
         processed_data = self.outlier_remover.transform(processed_data)
-
+        print(processed_data.shape, "after outliers removal")
+        processed_data = self.scaler.transform(processed_data)
+        print(processed_data.shape, "after scaling")
         logger.info("Data Preprocessing completed")
         return pd.DataFrame(processed_data, columns=data_to_process.columns)
         
@@ -35,12 +33,19 @@ class Pipeline:
         y = self.data["CREDIT_SCORE"]
         columns = pd.read_json("Data/selected_features_15.json")[0]
         X = self.data[columns]
-        df = pd.DataFrame(X)
-        df["CREDIT_SCORE"] = y
-        preprocess_data = self.data_preprocessing(df)
-        X = preprocess_data.drop(columns="CREDIT_SCORE", axis=1)
-        y = preprocess_data["CREDIT_SCORE"]
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+        X_train["CREDIT_SCORE"] = y_train
+        df = MinMaxScaling().fit(X_train)
+        df_preprocessed = self.data_preprocessing(df)
+        print(df_preprocessed, "preprocessed df of train", df_preprocessed.shape)
+        X_train = df_preprocessed.drop("CREDIT_SCORE", axis=1)
+        y_train = df_preprocessed["CREDIT_SCORE"]
+        print
+        X_test["CREDIT_SCORE"] = y_test
+        X_test_preprocessed = self.data_preprocessing(X_test)
+        print(X_test_preprocessed, X_test_preprocessed.shape, "test set")
+        X_test = X_test_preprocessed.drop("CREDIT_SCORE", axis=1)
+        y_test = X_test_preprocessed["CREDIT_SCORE"]
         self.model.train(X_train, y_train)
         self.model.predict(X_test)
         scores = self.get_scores(y_test)
@@ -60,11 +65,11 @@ class Pipeline:
         X = processed_data.drop(columns=["CREDIT_SCORE"], axis=1)
         y = processed_data["CREDIT_SCORE"]
         prediction = self.model.predict(X)
-        # print(prediction,'ashgdasdgjasdjhj')
         prediction_descaled = self.scaler.inverse_transform(prediction)
         with open("Data/descaled_predictions.json", "w") as file:
             json.dump(prediction_descaled, file)
-        scores = self.get_scores(y)
+        y_descaled = self.scaler.inverse_transform(y)
+        scores = self.get_scores(y_descaled)
         logger.info(f"Scores: {scores}")
         return prediction_descaled
     
