@@ -18,13 +18,13 @@ class Pipeline:
     def data_preprocessing(self, data_to_process):
         logger.info("Data Preprocessing")
         processed_data = self.nan_checker.transform(data_to_process)
-        print(processed_data.shape, "after nan checking")
+        # print(processed_data.shape, "after nan checking")
         # if not hasattr(self.scaler, "min_"):
         #     self.scaler.fit(processed_data)
         processed_data = self.outlier_remover.transform(processed_data)
-        print(processed_data.shape, "after outliers removal")
+        # print(processed_data.shape, "after outliers removal")
         processed_data = self.scaler.transform(processed_data)
-        print(processed_data.shape, "after scaling")
+        # print(processed_data.shape, "after scaling")
         logger.info("Data Preprocessing completed")
         return pd.DataFrame(processed_data, columns=data_to_process.columns)
         
@@ -37,13 +37,12 @@ class Pipeline:
         X_train["CREDIT_SCORE"] = y_train
         df = MinMaxScaling().fit(X_train)
         df_preprocessed = self.data_preprocessing(df)
-        print(df_preprocessed, "preprocessed df of train", df_preprocessed.shape)
+        # print(df_preprocessed, "preprocessed df of train", df_preprocessed.shape)
         X_train = df_preprocessed.drop("CREDIT_SCORE", axis=1)
         y_train = df_preprocessed["CREDIT_SCORE"]
-        print
         X_test["CREDIT_SCORE"] = y_test
         X_test_preprocessed = self.data_preprocessing(X_test)
-        print(X_test_preprocessed, X_test_preprocessed.shape, "test set")
+        # print(X_test_preprocessed, X_test_preprocessed.shape, "test set")
         X_test = X_test_preprocessed.drop("CREDIT_SCORE", axis=1)
         y_test = X_test_preprocessed["CREDIT_SCORE"]
         self.model.train(X_train, y_train)
