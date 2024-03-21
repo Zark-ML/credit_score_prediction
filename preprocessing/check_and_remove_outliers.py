@@ -6,7 +6,16 @@ import pandas as pd
 logger.info("Successfully imported 'CheckAndRemoveOutliers' file")
 
 class CheckAndRemoveOutliers(DataPreprocessing):
+    """
+    A class that removes outliers from a pandas DataFrame using the Isolation Forest algorithm.
+    
+    Inherits from the DataPreprocessing class.
+    """
+
     def __init__(self):
+        """
+        Initializes an instance of the CheckAndRemoveOutliers class.
+        """
         super().__init__("CheckAndRemoveOutliers")
 
     def transform(self, data: pd.DataFrame):
@@ -14,10 +23,12 @@ class CheckAndRemoveOutliers(DataPreprocessing):
         Removes outliers from a pandas DataFrame using the Isolation Forest algorithm.
         
         Parameters:
-        - df: pandas DataFrame, the DataFrame from which to remove outliers.
+        - data: pandas DataFrame
+            The DataFrame from which to remove outliers.
         
         Returns:
-        - clean_df: pandas DataFrame, the DataFrame after removing outliers.
+        - clean_df: pandas DataFrame
+            The DataFrame after removing outliers.
         """
         # Initialize the Isolation Forest model
         isolation_forest = IsolationForest(random_state=42)

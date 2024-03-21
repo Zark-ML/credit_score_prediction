@@ -5,10 +5,29 @@ from preprocessing.abstract_prep import DataPreprocessing
 logger.info("Successfully imported 'RemoveOutliers' file")
 
 class RemoveOutliers(DataPreprocessing):
+    """
+    A class that removes outliers from a given dataset using the Interquartile Range (IQR) method.
+    """
+
     def __init__(self):
+        """
+        Initializes an instance of the RemoveOutliers class.
+        
+        Parameters:
+            None
+        """
         super().__init__("RemoveOutliers")
 
     def transform(self, data: pd.DataFrame):
+        """
+        Applies the outlier removal transformation on the given dataset.
+        
+        Parameters:
+            data (pd.DataFrame): The input dataset to be transformed.
+        
+        Returns:
+            pd.DataFrame: The transformed dataset with outliers removed.
+        """
         logger.info(f"{self} is starting")
 
         cleaned_data = data.copy()
@@ -25,6 +44,3 @@ class RemoveOutliers(DataPreprocessing):
         logger.info(f"{self} ended")
         
         return cleaned_data
-    
-    def __str__(self) -> str:
-        return super().__str__()

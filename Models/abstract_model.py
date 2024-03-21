@@ -97,7 +97,7 @@ class Model:
 
         Parameters:
         - y_test: The true target values.
-        - score_type (str): The type of score to compute. Default is "R2".
+        - score_type (str): ["MAE", "MSE", "RMSE", "R2", "MAPE"]. The type of score to compute. Default is "R2".
 
         Returns:
         - The evaluation score.
@@ -106,9 +106,7 @@ class Model:
             logger.error("Model has not made predictions yet")
             return None
 
-        """
-        score_types: MAE, MSE, RMSE, R2, MAPE 
-        """
+       
         match score_type:
             case "MAE":
                 mae = mean_absolute_error(y_test, self.y_pred)

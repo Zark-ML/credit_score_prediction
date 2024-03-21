@@ -4,13 +4,18 @@ from helper import logger
 from preprocessing.check_nans import CheckNans 
 from preprocessing.minmax_scaler import MinMaxScaling
 from preprocessing.check_and_remove_outliers import CheckAndRemoveOutliers
+from Models.RidgeRegression import RidgeRegression
 import json
 
 
 class Pipeline:
-    def __init__(self, data: pd.DataFrame, model):
+    def __init__(self, data: pd.DataFrame, model = None):
         self.data = data
-        self.model = model
+        if model is None:
+            self.model = RidgeRegression()
+        else:
+            self.model = model
+
         self.nan_checker = CheckNans()
         self.scaler = MinMaxScaling()
         self.outlier_remover = CheckAndRemoveOutliers()
@@ -28,7 +33,7 @@ class Pipeline:
         logger.info("Data Preprocessing completed")
         return pd.DataFrame(processed_data, columns=data_to_process.columns)
         
-    def fit_transform(self):
+    def     fit_transform(self):
         logger.info("Training the model")
         y = self.data["CREDIT_SCORE"]
         columns = pd.read_json("Data/selected_features_15.json")[0]
